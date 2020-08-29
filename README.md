@@ -1,3 +1,7 @@
+# react-note-app
+
+reactjs app to manage your notes
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
