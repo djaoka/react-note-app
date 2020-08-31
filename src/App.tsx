@@ -7,7 +7,10 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <NoteList />
+      <section className="App-Section">
+        <NoteList />
+        <div>edit/view</div>
+      </section>
     </div>
   );
 }

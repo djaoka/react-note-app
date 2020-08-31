@@ -1,3 +1,7 @@
 .App {
-  text-align: center;
+  text-align: left;
+}
+.App-Section {
+  display: flex;
+  flex-direction: row;
 }
