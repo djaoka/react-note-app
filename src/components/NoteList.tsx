@@ -1,12 +1,17 @@
 import React from 'react';
-import NoteItem from 'components/NoteItem';
+import { NoteModel } from 'models/NoteModel';
 
-const NoteList = () => {
+type NoteListProps = {
+  notes: NoteModel[]
+}
+
+const NoteList = ({ notes }: NoteListProps) => {
     return (
-      <div>
-        <NoteItem />
-        <NoteItem />
-      </div>
+      <ul>
+        {notes.map((note: NoteModel, index) => (
+          <li key={index}>{note.title}</li>
+        ))}
+      </ul>
     );
   }
 
