@@ -6,3 +6,6 @@
   flex-direction: row;
   width: 100%;
 }
+.App-NoNote {
+  text-align: center;
+}
