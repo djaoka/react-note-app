@@ -9,7 +9,7 @@ const style: CSS.Properties = {
 class Header extends Component {
     render() {
         return <header style={style}>
-            <button>New note</button>
+            <button> + New note</button>
         </header>
     }
 }
