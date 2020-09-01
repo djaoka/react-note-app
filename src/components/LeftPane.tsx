@@ -6,7 +6,7 @@ type LeftPaneProps = {
 
 const style: CSS.Properties = {
     display: "flex",
-    flexGrow: 1,
+    flexGrow: 0,
     border: '1px solid #ccc',
 }
 
