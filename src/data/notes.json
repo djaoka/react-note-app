@@ -1,0 +1,5 @@
+[
+    { "id": 0, "title": "First note", "text": "my first note" },
+    { "id": 1, "title": "Second note", "text": "ok my new note" },
+    { "id": 2, "title": "Third note", "text": "the last one" }
+]
