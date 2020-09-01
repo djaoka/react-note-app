@@ -4,4 +4,5 @@
 .App-Section {
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
