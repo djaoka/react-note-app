@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import notes from 'data/notes.json';
 import { NoteModel } from 'models/NoteModel';
+import NoteItem from 'components/NoteItem';
 
 const newNotes: NoteModel[] = notes.map((d: any) => d as NoteModel);
 
@@ -21,21 +22,27 @@ function App() {
       <div className="App">
         <Header />
         <section className="App-Section">
-          <RightPane>
-            <NoteList notes={newNotes}/>
-          </RightPane>
           <LeftPane>
-          <Switch>
-            <Route path="/:id" children={<FindNote />} />
-            <Route path="*">
-              <div className="App-NoNote">please select a note</div>
-            </Route>
-          </Switch>
+            <NoteList notes={newNotes}/>
           </LeftPane>
+          <RightPane>
+            <Switch>
+              <Route path="/:id" children={<FindNote />} />
+              <Route path="*">
+                <NoNote />
+              </Route>
+            </Switch>
+          </RightPane>
         </section>
       </div>
     </Router>
   );
+}
+
+function NoNote() {
+  return (
+    <div className="App-NoNote">please select a note</div>
+  )
 }
 
 function FindNote() {
@@ -43,10 +50,10 @@ function FindNote() {
   // the dynamic pieces of the URL.
   let { id } = useParams();
 
+  const found = newNotes.find((n: NoteModel) => n.id === id);
+
   return (
-    <div>
-      <h3>ID: {id}</h3>
-    </div>
+      found ? <NoteItem id={found.title} title={found.title} text={found.text}/> : <NoNote />
   );
 }
 
