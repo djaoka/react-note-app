@@ -23,6 +23,9 @@ function App() {
           <LeftPane>
           <Switch>
             <Route path="/:id" children={<NoteItem />} />
+            <Route path="*">
+              <div className="App-NoNote">please select a note</div>
+            </Route>
           </Switch>
           </LeftPane>
         </section>
