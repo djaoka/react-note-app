@@ -4,20 +4,30 @@ import Header from 'components/Header';
 import NoteList from 'components/NoteList';
 import { RightPane } from 'components/RightPane';
 import { LeftPane } from 'components/LeftPane';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import NoteItem from 'components/NoteItem';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <section className="App-Section">
-        <RightPane>
-          <NoteList />
-        </RightPane>
-        <LeftPane>
-          view / edit
-        </LeftPane>
-      </section>
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <section className="App-Section">
+          <RightPane>
+            <NoteList />
+          </RightPane>
+          <LeftPane>
+          <Switch>
+            <Route path="/:id" children={<NoteItem />} />
+          </Switch>
+          </LeftPane>
+        </section>
+      </div>
+    </Router>
   );
 }
 
