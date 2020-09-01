@@ -7,9 +7,13 @@ import { LeftPane } from 'components/LeftPane';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  useParams
 } from "react-router-dom";
-import NoteItem from 'components/NoteItem';
+import notes from 'data/notes.json';
+import { NoteModel } from 'models/NoteModel';
+
+const newNotes: NoteModel[] = notes.map((d: any) => d as NoteModel);
 
 function App() {
   return (
@@ -18,11 +22,11 @@ function App() {
         <Header />
         <section className="App-Section">
           <RightPane>
-            <NoteList />
+            <NoteList notes={newNotes}/>
           </RightPane>
           <LeftPane>
           <Switch>
-            <Route path="/:id" children={<NoteItem />} />
+            <Route path="/:id" children={<FindNote />} />
             <Route path="*">
               <div className="App-NoNote">please select a note</div>
             </Route>
@@ -31,6 +35,18 @@ function App() {
         </section>
       </div>
     </Router>
+  );
+}
+
+function FindNote() {
+  // We can use the `useParams` hook here to access
+  // the dynamic pieces of the URL.
+  let { id } = useParams();
+
+  return (
+    <div>
+      <h3>ID: {id}</h3>
+    </div>
   );
 }
 
