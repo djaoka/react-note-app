@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NoteModel } from 'models/NoteModel';
 import CSS from 'csstype';
 import marked from 'marked';
+import DOMPurify from 'dompurify';
 
 const styleContainer: CSS.Properties = {
     display: 'flex',
@@ -22,7 +23,7 @@ const styleText: CSS.Properties = {
 
 class NoteItem extends Component<NoteModel, {}> {
     getMarkdownText() {
-        var rawMarkup = marked(this.props.text);
+        var rawMarkup = marked(DOMPurify.sanitize(this.props.text));
         return { __html: rawMarkup };
     }
     render() {
