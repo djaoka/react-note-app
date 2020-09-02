@@ -1,5 +1,5 @@
 [
     { "id": "b665e7a2-f182-4d38-acef-ec2d6924f583", "title": "First note <img src=x onerror=alert(41) />", "text": "my first note is testing some XSS <img src=x onerror=alert(11) />" },
     { "id": "0e32683a-53d5-4bae-ab18-0b94f58db84f", "title": "Second note", "text": "ok my new note" },
-    { "id": "e5fd7153-5e48-4be4-b937-ac0832ed21ea", "title": "Third note", "text": "the last one" }
+    { "id": "e5fd7153-5e48-4be4-b937-ac0832ed21ea", "title": "Third note", "text": "# the last one\n\nRendered by **marked**.[test](javascript://%0d%0aprompt(1))[a](JaVaScRiPt:alert(1))[ ](http://a?p=[[/onclick=alert(0) .]])[Click Me](javascript:alert('Uh oh...'))" }
 ]

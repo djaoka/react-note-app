@@ -23,8 +23,8 @@ const styleText: CSS.Properties = {
 
 class NoteItem extends Component<NoteModel, {}> {
     getMarkdownText() {
-        var rawMarkup = marked(DOMPurify.sanitize(this.props.text));
-        return { __html: rawMarkup };
+        let rawMarkup = marked(this.props.text);
+        return { __html: DOMPurify.sanitize(rawMarkup) };
     }
     render() {
         return <div style={styleContainer}>
