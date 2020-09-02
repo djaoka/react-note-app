@@ -10,7 +10,6 @@ const styleContainer: CSS.Properties = {
     flexGrow: 1,
     flexShrink: 0
 }
-
 const styleTitle: CSS.Properties = {
     fontWeight: 'bold',
     fontSize: '20px',
@@ -19,6 +18,19 @@ const styleTitle: CSS.Properties = {
 }
 const styleText: CSS.Properties = {
     padding: '10px 20px'
+}
+const styleActions: CSS.Properties = {
+    padding: '10px 20px',
+    display: 'flex',
+    flexDirection: 'row',
+    borderTop: '1px solid #ccc',
+}
+const styleActionsLeft: CSS.Properties = {
+    display: 'flex',
+}
+const styleActionsRight: CSS.Properties = {
+    display: 'flex',
+    marginLeft: 'auto',
 }
 
 class NoteItem extends Component<NoteModel, {}> {
@@ -30,6 +42,16 @@ class NoteItem extends Component<NoteModel, {}> {
         return <div style={styleContainer}>
             <div style={styleTitle}>{this.props.title}</div>
             <div style={styleText} dangerouslySetInnerHTML={this.getMarkdownText()} />
+            <div style={styleActions}>
+                <div style={styleActionsLeft}>
+                    <button>Cancel</button>
+                </div>
+                <div style={styleActionsRight}>
+                    <button>Edit</button>
+                    <button>Save</button>
+                    <button>Delete</button>
+                </div>
+            </div>
         </div>
     }
 }
