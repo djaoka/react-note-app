@@ -8,15 +8,26 @@ type NoteListProps = {
 }
 
 const styleList: CSS.Properties = {
-  listStyleType: 'none'
+  listStyleType: 'none',
+  padding: 0,
+  margin: 0,
+}
+
+const styleLink: CSS.Properties = {
+  textDecoration: 'none',
+  color: 'inherit',
+}
+
+const styleLi: CSS.Properties = {
+  padding: '10px 15px',
 }
 
 const NoteList = ({ notes }: NoteListProps) => {
     return (
       <ul style={styleList}>
         {notes.map((note: NoteModel, index) => (
-          <Link key={index} to={`/${note.id}`}>
-            <li>{note.title}</li>
+          <Link key={index} to={`/${note.id}`} style={styleLink}>
+            <li style={styleLi}>{note.title}</li>
           </Link>
         ))}
       </ul>
