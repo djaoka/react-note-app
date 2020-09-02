@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NoteModel } from 'models/NoteModel';
 import CSS from 'csstype';
+import marked from 'marked';
 
 const styleContainer: CSS.Properties = {
     display: 'flex',
@@ -20,10 +21,14 @@ const styleText: CSS.Properties = {
 }
 
 class NoteItem extends Component<NoteModel, {}> {
+    getMarkdownText() {
+        var rawMarkup = marked(this.props.text);
+        return { __html: rawMarkup };
+    }
     render() {
         return <div style={styleContainer}>
             <div style={styleTitle}>{this.props.title}</div>
-            <div style={styleText}>{this.props.text}</div>
+            <div style={styleText} dangerouslySetInnerHTML={this.getMarkdownText()} />
         </div>
     }
 }
