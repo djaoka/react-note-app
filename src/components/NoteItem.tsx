@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { NoteModel } from 'models/NoteModel';
 import CSS from 'csstype';
-import marked from 'marked';
-import DOMPurify from 'dompurify';
+import { NoteEdit } from './NoteEdit';
+import { NoteView } from './NoteView';
 
 const styleContainer: CSS.Properties = {
     display: 'flex',
@@ -15,9 +15,6 @@ const styleTitle: CSS.Properties = {
     fontSize: '20px',
     padding: '10px 20px',
     borderBottom: '1px solid #ccc',
-}
-const styleText: CSS.Properties = {
-    padding: '10px 20px'
 }
 const styleActions: CSS.Properties = {
     padding: '10px 20px',
@@ -33,21 +30,38 @@ const styleActionsRight: CSS.Properties = {
     marginLeft: 'auto',
 }
 
-class NoteItem extends Component<NoteModel, {}> {
-    getMarkdownText() {
-        let rawMarkup = marked(this.props.text);
-        return { __html: DOMPurify.sanitize(rawMarkup) };
+type NoteItemState = {
+    editing: boolean
+}
+
+class NoteItem extends Component<NoteModel, NoteItemState> {
+
+    constructor(props: any) {
+        super(props);
+        this.state = {editing: false};
     }
+    
+    handleEditNote() {
+        this.setState({editing: !this.state.editing});
+    }
+
     render() {
+        const isEditing = this.state.editing;
+        let note;
+        if (isEditing) {
+            note = <NoteEdit text={this.props.text} />;
+        } else {
+            note = <NoteView text={this.props.text} />;
+        }
         return <div style={styleContainer}>
             <div style={styleTitle}>{this.props.title}</div>
-            <div style={styleText} dangerouslySetInnerHTML={this.getMarkdownText()} />
+            { note }
             <div style={styleActions}>
                 <div style={styleActionsLeft}>
                     <button>Cancel</button>
                 </div>
                 <div style={styleActionsRight}>
-                    <button>Edit</button>
+                    <button onClick={this.handleEditNote.bind(this)}>Edit</button>
                     <button>Save</button>
                     <button>Delete</button>
                 </div>
