@@ -25,6 +25,12 @@ class NoteEdit extends Component<NoteEditProps, NoteEditState> {
         this.setState({value: event.target.value});
     }
 
+    static getDerivedStateFromProps(nextProps: any, prevState: any) {
+        return {
+            value: nextProps.text
+        };
+    }
+
     render() {
         return <textarea id="textearea" style={style} value={this.state.value} onChange={this.handleChange.bind(this)}></textarea>
     }

@@ -65,6 +65,13 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
         this.setState({title: event.target.value});
     }
 
+    static getDerivedStateFromProps(nextProps: any, prevState: any) {
+        return {
+            title: nextProps.title,
+            text: nextProps.text
+        };
+    }
+
     render() {
         const mode = this.state.mode;
         if (mode === 'edit') {
