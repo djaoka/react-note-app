@@ -16,6 +16,16 @@ const styleTitle: CSS.Properties = {
     padding: '10px 20px',
     borderBottom: '1px solid #ccc',
 }
+const styleTitleEdit: CSS.Properties = {
+    fontWeight: 'bold',
+    fontSize: '20px',
+    padding: '0',
+    width: '100vh',
+    borderBottom: '1px solid #ccc',
+}
+const styleTitleEditInput: CSS.Properties = {
+    width: '100vh',
+}
 const styleActions: CSS.Properties = {
     padding: '10px 20px',
     display: 'flex',
@@ -31,14 +41,15 @@ const styleActionsRight: CSS.Properties = {
 }
 
 type NoteItemState = {
-    mode: string
+    mode: string,
+    title: string,
 }
 
 class NoteItem extends Component<NoteModel, NoteItemState> {
 
     constructor(props: NoteModel) {
         super(props);
-        this.state = { mode: 'view' };
+        this.state = { mode: 'view', title: props.title };
     }
     
     handleEditNote() {
@@ -49,11 +60,17 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
         this.setState({ mode: 'view' });
     }
 
+    handleChangeTitle(event: any) {
+        this.setState({title: event.target.value});
+    }
+
     render() {
         const mode = this.state.mode;
         if (mode === 'edit') {
             return <div style={styleContainer}>
-                <div style={styleTitle}>{this.props.title}</div>
+                    <div style={styleTitleEdit}>
+                        <input style={styleTitleEditInput} type="text" value={this.state.title} onChange={this.handleChangeTitle.bind(this)}/>
+                    </div>
                     <NoteEdit text={this.props.text} />
                 <div style={styleActions}>
                     <div style={styleActionsLeft}>
@@ -67,7 +84,7 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
             </div>
         } else {
             return <div style={styleContainer}>
-                <div style={styleTitle}>{this.props.title}</div>
+                    <div style={styleTitle}>{this.props.title}</div>
                     <NoteView text={this.props.text} />
                 <div style={styleActions}>
                     <div style={styleActionsLeft}>
