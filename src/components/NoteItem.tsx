@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { NoteModel } from 'models/NoteModel';
 import CSS from 'csstype';
-import { NoteEdit } from './NoteEdit';
 import { NoteView } from './NoteView';
+import NoteEdit from './NoteEdit';
 
 const styleContainer: CSS.Properties = {
     display: 'flex',
@@ -31,28 +31,28 @@ const styleActionsRight: CSS.Properties = {
 }
 
 type NoteItemState = {
-    editing: boolean
+    mode: string
 }
 
 class NoteItem extends Component<NoteModel, NoteItemState> {
 
     constructor(props: any) {
         super(props);
-        this.state = {editing: false};
+        this.state = { mode: 'view' };
     }
     
     handleEditNote() {
-        this.setState({editing: true});
+        this.setState({ mode: 'edit' });
     }
 
     handleCancelEditNote() {
-        this.setState({editing: false});
+        this.setState({ mode: 'view' });
     }
 
     render() {
-        const isEditing = this.state.editing;
+        const mode = this.state.mode;
         let note;
-        if (isEditing) {
+        if (mode === 'edit') {
             note = <NoteEdit text={this.props.text} />;
 
         } else {
