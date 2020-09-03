@@ -51,7 +51,6 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
 
     render() {
         const mode = this.state.mode;
-        let note;
         if (mode === 'edit') {
             return <div style={styleContainer}>
                 <div style={styleTitle}>{this.props.title}</div>
