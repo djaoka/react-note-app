@@ -36,7 +36,7 @@ type NoteItemState = {
 
 class NoteItem extends Component<NoteModel, NoteItemState> {
 
-    constructor(props: any) {
+    constructor(props: NoteModel) {
         super(props);
         this.state = { mode: 'view' };
     }

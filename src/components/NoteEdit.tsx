@@ -6,7 +6,8 @@ type NoteEditProps = {
 }
 
 const style: CSS.Properties = {
-    padding: '10px 20px'
+    padding: '10px 20px',
+    height: '50vh'
 }
 
 type NoteEditState = {
@@ -15,7 +16,7 @@ type NoteEditState = {
 
 class NoteEdit extends Component<NoteEditProps, NoteEditState> {
 
-    constructor(props: any) {
+    constructor(props: NoteEditProps) {
         super(props);
         this.state = { value: this.props.text };
     }
