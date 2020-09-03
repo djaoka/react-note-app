@@ -42,7 +42,11 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
     }
     
     handleEditNote() {
-        this.setState({editing: !this.state.editing});
+        this.setState({editing: true});
+    }
+
+    handleCancelEditNote() {
+        this.setState({editing: false});
     }
 
     render() {
@@ -50,6 +54,7 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
         let note;
         if (isEditing) {
             note = <NoteEdit text={this.props.text} />;
+
         } else {
             note = <NoteView text={this.props.text} />;
         }
@@ -58,7 +63,7 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
             { note }
             <div style={styleActions}>
                 <div style={styleActionsLeft}>
-                    <button>Cancel</button>
+                    <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
                 </div>
                 <div style={styleActionsRight}>
                     <button onClick={this.handleEditNote.bind(this)}>Edit</button>
