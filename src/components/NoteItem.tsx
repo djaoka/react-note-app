@@ -53,25 +53,32 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
         const mode = this.state.mode;
         let note;
         if (mode === 'edit') {
-            note = <NoteEdit text={this.props.text} />;
-
-        } else {
-            note = <NoteView text={this.props.text} />;
-        }
-        return <div style={styleContainer}>
-            <div style={styleTitle}>{this.props.title}</div>
-            { note }
-            <div style={styleActions}>
-                <div style={styleActionsLeft}>
-                    <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
-                </div>
-                <div style={styleActionsRight}>
-                    <button onClick={this.handleEditNote.bind(this)}>Edit</button>
-                    <button>Save</button>
-                    <button>Delete</button>
+            return <div style={styleContainer}>
+                <div style={styleTitle}>{this.props.title}</div>
+                    <NoteEdit text={this.props.text} />
+                <div style={styleActions}>
+                    <div style={styleActionsLeft}>
+                        <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
+                    </div>
+                    <div style={styleActionsRight}>
+                        <button>Save</button>
+                        <button>Delete</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        } else {
+            return <div style={styleContainer}>
+                <div style={styleTitle}>{this.props.title}</div>
+                    <NoteView text={this.props.text} />
+                <div style={styleActions}>
+                    <div style={styleActionsLeft}>
+                    </div>
+                    <div style={styleActionsRight}>
+                        <button onClick={this.handleEditNote.bind(this)}>Edit</button>
+                    </div>
+                </div>
+            </div>
+        }
     }
 }
 
