@@ -43,13 +43,14 @@ const styleActionsRight: CSS.Properties = {
 type NoteItemState = {
     mode: string,
     title: string,
+    text: string,
 }
 
 class NoteItem extends Component<NoteModel, NoteItemState> {
 
     constructor(props: NoteModel) {
         super(props);
-        this.state = { mode: 'view', title: props.title };
+        this.state = { mode: 'view', title: props.title, text: props.text };
     }
     
     handleEditNote() {
@@ -71,7 +72,7 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
                     <div style={styleTitleEdit}>
                         <input style={styleTitleEditInput} type="text" value={this.state.title} onChange={this.handleChangeTitle.bind(this)}/>
                     </div>
-                    <NoteEdit text={this.props.text} />
+                    <NoteEdit text={this.state.text} />
                 <div style={styleActions}>
                     <div style={styleActionsLeft}>
                         <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
@@ -84,8 +85,8 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
             </div>
         } else {
             return <div style={styleContainer}>
-                    <div style={styleTitle}>{this.props.title}</div>
-                    <NoteView text={this.props.text} />
+                    <div style={styleTitle}>{this.state.title}</div>
+                    <NoteView text={this.state.text} />
                 <div style={styleActions}>
                     <div style={styleActionsLeft}>
                     </div>
