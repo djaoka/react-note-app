@@ -47,8 +47,8 @@ type NoteItemState = {
 
 type NoteItemProps = {
     note: NoteModel,
-    handleChangeTitle?: any,
-    handleChangeText?: any,
+    onChangeTitle?: any,
+    onChangeText?: any,
 }
 
 class NoteItem extends Component<NoteItemProps, NoteItemState> {
@@ -69,9 +69,9 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         if (mode === 'edit') {
             return <div style={styleContainer}>
                         <div style={styleTitleEdit}>
-                            <input style={styleTitleEditInput} type="text" value={this.props.note.title} onChange={this.props.handleChangeTitle}/>
+                            <input style={styleTitleEditInput} type="text" value={this.props.note.title} onChange={(event) => this.props.onChangeTitle(event.target.value)}/>
                         </div>
-                        <NoteEdit text={this.props.note.text} handleChange={this.props.handleChangeText}/>
+                        <NoteEdit text={this.props.note.text} onChangeText={(text: string) => this.props.onChangeText(text)}/>
                         <div style={styleActions}>
                             <div style={styleActionsLeft}>
                                 <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>

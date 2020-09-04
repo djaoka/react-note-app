@@ -5,6 +5,7 @@ import { LeftPane } from 'components/LeftPane';
 import { Switch, Route, useParams } from 'react-router-dom';
 import { NoteModel } from 'models/NoteModel';
 import NoteItem from './NoteItem';
+import { useState } from 'react';
 
 function NoNote() {
     return (
@@ -45,11 +46,23 @@ class Notes extends React.Component<NotesProps, NotesState> {
 
 function Child(props: any) {
     let { id } = useParams();
-    const found = props.notes.find((n: NoteModel) => n.id === id);
-    console.log('found', found);
+    // const found = props.notes.find((n: NoteModel) => n.id === id);
+    // console.log('found', found);
+
+    const [note, setNote] = useState(
+        props.notes.find((n: NoteModel) => n.id === id)
+    );
+
+    const handleChangeTitle = (title: string) => {
+        setNote({ ...note, title });
+    }
+
+    const handleChangeText = (text: string) => {
+        setNote({ ...note, text });
+    }
 
     return (
-        found ? <NoteItem note={found} /> : <NoNote />
+        <NoteItem note={note} onChangeTitle={(title: string) => handleChangeTitle(title)} onChangeText={(text: string) => handleChangeText(text)}/>
     );
 }  
  
