@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { NoteModel } from 'models/NoteModel';
 import CSS from 'csstype';
 import { NoteView } from './NoteView';
 import NoteEdit from './NoteEdit';
+import { NoteModel } from 'models/NoteModel';
 
 const styleContainer: CSS.Properties = {
     display: 'flex',
@@ -42,17 +42,20 @@ const styleActionsRight: CSS.Properties = {
 
 type NoteItemState = {
     mode: string,
-    title: string,
-    text: string,
+    note: NoteModel,
 }
 
-class NoteItem extends Component<NoteModel, NoteItemState> {
+type NoteItemProps = {
+    note: NoteModel,
+    handleChangeTitle?: any,
+    handleChangeText?: any,
+}
 
-    constructor(props: NoteModel) {
-        super(props);
-        this.state = { mode: 'view', title: props.title, text: props.text };
+class NoteItem extends Component<NoteItemProps, NoteItemState> {
+    state = {
+        mode: 'view',
+        note: this.props.note,
     }
-    
     handleEditNote() {
         this.setState({ mode: 'edit' });
     }
@@ -61,47 +64,36 @@ class NoteItem extends Component<NoteModel, NoteItemState> {
         this.setState({ mode: 'view' });
     }
 
-    handleChangeTitle(event: any) {
-        this.setState({title: event.target.value});
-    }
-
-    static getDerivedStateFromProps(nextProps: any, prevState: any) {
-        return {
-            title: nextProps.title,
-            text: nextProps.text
-        };
-    }
-
     render() {
         const mode = this.state.mode;
         if (mode === 'edit') {
             return <div style={styleContainer}>
-                    <div style={styleTitleEdit}>
-                        <input style={styleTitleEditInput} type="text" value={this.state.title} onChange={this.handleChangeTitle.bind(this)}/>
+                        <div style={styleTitleEdit}>
+                            <input style={styleTitleEditInput} type="text" value={this.props.note.title} onChange={this.props.handleChangeTitle}/>
+                        </div>
+                        <NoteEdit text={this.props.note.text} handleChange={this.props.handleChangeText}/>
+                        <div style={styleActions}>
+                            <div style={styleActionsLeft}>
+                                <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
+                            </div>
+                            <div style={styleActionsRight}>
+                                <button>Save</button>
+                                <button>Delete</button>
+                            </div>
+                        </div>
                     </div>
-                    <NoteEdit text={this.state.text} />
-                <div style={styleActions}>
-                    <div style={styleActionsLeft}>
-                        <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
-                    </div>
-                    <div style={styleActionsRight}>
-                        <button>Save</button>
-                        <button>Delete</button>
-                    </div>
-                </div>
-            </div>
         } else {
             return <div style={styleContainer}>
-                    <div style={styleTitle}>{this.state.title}</div>
-                    <NoteView text={this.state.text} />
-                <div style={styleActions}>
-                    <div style={styleActionsLeft}>
+                        <div style={styleTitle}>{this.props.note.title}</div>
+                        <NoteView text={this.props.note.text} />
+                        <div style={styleActions}>
+                            <div style={styleActionsLeft}>
+                            </div>
+                            <div style={styleActionsRight}>
+                                <button onClick={this.handleEditNote.bind(this)}>Edit</button>
+                            </div>
+                        </div>
                     </div>
-                    <div style={styleActionsRight}>
-                        <button onClick={this.handleEditNote.bind(this)}>Edit</button>
-                    </div>
-                </div>
-            </div>
         }
     }
 }
