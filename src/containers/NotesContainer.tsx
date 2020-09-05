@@ -27,9 +27,15 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
     }
 
     editNote(edited: NoteModel) {
-        const index = this.state.notes.findIndex(e => e.id === edited.id);
+        const index = this.state.notes.findIndex((e: NoteModel) => e.id === edited.id);
         let newNotes = [...this.state.notes];
         newNotes[index] = edited;
+        this.setState({ notes: newNotes });
+    }
+
+    deleteNote(deleting: NoteModel) {
+        let newNotes = [...this.state.notes];
+        newNotes = newNotes.filter((e: NoteModel) => e.id !== deleting.id);
         this.setState({ notes: newNotes });
     }
 
@@ -41,8 +47,12 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
                 </LeftPane>
                 <RightPane>
                     <Switch>
-                        <Route path="/:id" render={(props) => <Child {...props} notes={this.state.notes}
-                            onSaveNote={(edited: NoteModel) => this.editNote(edited)} />} />
+                        <Route path="/:id" render={(props) => 
+                            <Child {...props} notes={this.state.notes}
+                                onSaveNote={(edited: NoteModel) => this.editNote(edited)}
+                                onDeleteNote={(deleting: NoteModel) => this.deleteNote(deleting)}
+                            />}
+                        />
                         <Route path="*">
                             <NoNote />
                         </Route>
@@ -69,14 +79,18 @@ function Child(props: any) {
     }, [props.match.params.id]);
 
     useEffect(() => {
-        setNote(findNote(note.id));
-    }, [props.notes]);
+        setNote(findNote(note ? note.id : null));
+    }, [props.notes, note]);
 
-    return (
-        <NoteItem note={note}
-            onSaveNote={(edited: NoteModel) => props.onSaveNote(edited)}
-        />
-    );
+    if (note) {
+        return (
+            <NoteItem note={note}
+                onSaveNote={(edited: NoteModel) => props.onSaveNote(edited)}
+                onDeleteNote={(deleting: NoteModel) => props.onDeleteNote(deleting)}
+            />
+        )
+    }
+    return <NoNote />
 }  
  
 export default NotesContainer;

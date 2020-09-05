@@ -48,6 +48,7 @@ type NoteItemState = {
 type NoteItemProps = {
     note: NoteModel,
     onSaveNote: any,
+    onDeleteNote: any,
 }
 
 class NoteItem extends Component<NoteItemProps, NoteItemState> {
@@ -78,6 +79,10 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         this.setState({ mode: 'view' });
     }
 
+    handleDeleteNote() {
+        this.props.onDeleteNote(this.state.note);
+    }
+
     render() {
         const mode = this.state.mode;
         if (mode === 'edit') {
@@ -92,7 +97,7 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
                             </div>
                             <div style={styleActionsRight}>
                                 <button onClick={this.handleSaveNote.bind(this)}>Save</button>
-                                <button>Delete</button>
+                                <button onClick={this.handleDeleteNote.bind(this)}>Delete</button>
                             </div>
                         </div>
                     </div>
