@@ -57,11 +57,21 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         note: this.props.note,
     }
     handleEditNote() {
-        this.setState({ mode: 'edit' });
+        this.setState({ mode: 'edit', note: this.props.note });
     }
 
     handleCancelEditNote() {
         this.setState({ mode: 'view' });
+    }
+
+    previewNoteTitle(title: string) {
+        const newNote = { ...this.state.note, title: title};
+        this.setState({ note: newNote })
+    }
+
+    previewNoteText(text: string) {
+        const newNote = { ...this.state.note, text: text};
+        this.setState({ note: newNote })
     }
 
     render() {
@@ -69,9 +79,9 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         if (mode === 'edit') {
             return <div style={styleContainer}>
                         <div style={styleTitleEdit}>
-                            <input style={styleTitleEditInput} type="text" value={this.props.note.title} onChange={(event) => this.props.onChangeTitle(event.target.value)}/>
+                            <input style={styleTitleEditInput} type="text" value={this.state.note.title} onChange={(event) => this.previewNoteTitle(event.target.value)}/>
                         </div>
-                        <NoteTextEdit text={this.props.note.text} onChangeText={(text: string) => this.props.onChangeText(text)}/>
+                        <NoteTextEdit text={this.state.note.text} onChangeText={(text: string) => this.previewNoteText(text)}/>
                         <div style={styleActions}>
                             <div style={styleActionsLeft}>
                                 <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
