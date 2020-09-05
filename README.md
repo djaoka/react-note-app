@@ -1,4 +1,4 @@
-# react-note-app
+# react-note-app :memo:
 
 reactjs app to manage your notes
 
