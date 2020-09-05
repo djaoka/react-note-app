@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CSS from 'csstype';
-import { NoteView } from './NoteView';
-import NoteEdit from './NoteEdit';
+import { NoteTextView } from './NoteTextView';
+import NoteTextEdit from './NoteTextEdit';
 import { NoteModel } from 'models/NoteModel';
 
 const styleContainer: CSS.Properties = {
@@ -71,7 +71,7 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
                         <div style={styleTitleEdit}>
                             <input style={styleTitleEditInput} type="text" value={this.props.note.title} onChange={(event) => this.props.onChangeTitle(event.target.value)}/>
                         </div>
-                        <NoteEdit text={this.props.note.text} onChangeText={(text: string) => this.props.onChangeText(text)}/>
+                        <NoteTextEdit text={this.props.note.text} onChangeText={(text: string) => this.props.onChangeText(text)}/>
                         <div style={styleActions}>
                             <div style={styleActionsLeft}>
                                 <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
@@ -85,7 +85,7 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         } else {
             return <div style={styleContainer}>
                         <div style={styleTitle}>{this.props.note.title}</div>
-                        <NoteView text={this.props.note.text} />
+                        <NoteTextView text={this.props.note.text} />
                         <div style={styleActions}>
                             <div style={styleActionsLeft}>
                             </div>

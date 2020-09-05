@@ -3,7 +3,7 @@ import CSS from 'csstype';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
-type NoteViewProps = {
+type NoteTextViewProps = {
     text: string,
 }
 
@@ -16,4 +16,4 @@ const getMarkdownText = (text: string) => {
     return { __html: DOMPurify.sanitize(rawMarkup) };
 }
 
-export const NoteView: FunctionComponent<NoteViewProps> = ({ text }) => <div style={style} dangerouslySetInnerHTML={getMarkdownText(text)} />
+export const NoteTextView: FunctionComponent<NoteTextViewProps> = ({ text }) => <div style={style} dangerouslySetInnerHTML={getMarkdownText(text)} />

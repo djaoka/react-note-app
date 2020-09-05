@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CSS from 'csstype';
 
-type NoteEditProps = {
+type NoteTextEditProps = {
     text: string,
     onChangeText: any,
 }
@@ -11,10 +11,10 @@ const style: CSS.Properties = {
     height: '50vh'
 }
 
-class NoteEdit extends Component<NoteEditProps, {}> {
+class NoteTextEdit extends Component<NoteTextEditProps, {}> {
     render() {
         return <textarea id="textearea" style={style} value={this.props.text} onChange={(event) => this.props.onChangeText(event.target.value)}></textarea>
     }
 }
 
-export default NoteEdit;
+export default NoteTextEdit;
