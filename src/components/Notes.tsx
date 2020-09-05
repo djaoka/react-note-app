@@ -5,7 +5,7 @@ import { LeftPane } from 'components/LeftPane';
 import { Switch, Route, useParams } from 'react-router-dom';
 import { NoteModel } from 'models/NoteModel';
 import NoteItem from './NoteItem';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function NoNote() {
     return (
@@ -33,7 +33,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 </LeftPane>
                 <RightPane>
                     <Switch>
-                        <Route path="/:id" children={<Child notes={this.state.notes} />} />
+                        <Route path="/:id" render={(props) => <Child {...props} notes={this.state.notes} />} />
                         <Route path="*">
                             <NoNote />
                         </Route>
@@ -46,12 +46,14 @@ class Notes extends React.Component<NotesProps, NotesState> {
 
 function Child(props: any) {
     let { id } = useParams();
-    // const found = props.notes.find((n: NoteModel) => n.id === id);
-    // console.log('found', found);
 
     const [note, setNote] = useState(
         props.notes.find((n: NoteModel) => n.id === id)
     );
+
+    const findNote = (id: string): NoteModel => {
+        return props.notes.find((n: NoteModel) => n.id === id);
+    }
 
     const handleChangeTitle = (title: string) => {
         setNote({ ...note, title });
@@ -60,6 +62,10 @@ function Child(props: any) {
     const handleChangeText = (text: string) => {
         setNote({ ...note, text });
     }
+
+    useEffect(() => {
+        setNote(findNote(props.match.params.id));
+    }, [props.match.params.id]);
 
     return (
         <NoteItem note={note} onChangeTitle={(title: string) => handleChangeTitle(title)} onChangeText={(text: string) => handleChangeText(text)}/>
