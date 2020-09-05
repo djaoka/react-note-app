@@ -56,7 +56,7 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         note: this.props.note,
     }
     handleEditNote() {
-        this.setState({ mode: 'edit' });
+        this.setState({ mode: 'edit', note: this.props.note });
     }
 
     handleCancelEditNote() {
