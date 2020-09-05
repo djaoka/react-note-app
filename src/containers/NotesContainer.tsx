@@ -4,7 +4,7 @@ import { RightPane } from 'components/RightPane';
 import { LeftPane } from 'components/LeftPane';
 import { Switch, Route, useParams } from 'react-router-dom';
 import { NoteModel } from 'models/NoteModel';
-import NoteItem from './NoteItem';
+import NoteItem from '../components/NoteItem';
 import { useState, useEffect } from 'react';
 
 function NoNote() {
@@ -13,15 +13,15 @@ function NoNote() {
     )
 }
 
-export interface NotesProps {
+export interface NotesContainerProps {
     notes: NoteModel[],
 }
  
-export interface NotesState {
+export interface NotesContainerState {
     notes: NoteModel[],
 }
 
-class Notes extends React.Component<NotesProps, NotesState> {
+class NotesContainer extends React.Component<NotesContainerProps, NotesContainerState> {
     state = {
         notes: this.props.notes
     }
@@ -79,4 +79,4 @@ function Child(props: any) {
     );
 }  
  
-export default Notes;
+export default NotesContainer;

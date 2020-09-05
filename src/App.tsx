@@ -4,7 +4,7 @@ import Header from 'components/Header';
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
-import Notes from 'components/Notes';
+import NotesContainer from 'containers/NotesContainer';
 import notes from 'data/notes.json';
 import { NoteModel } from 'models/NoteModel';
 
@@ -16,7 +16,7 @@ function App() {
       <div className="App">
         <Header />
         <section className="App-Section">
-          <Notes notes={newNotes} />
+          <NotesContainer notes={newNotes} />
         </section>
       </div>
     </Router>
