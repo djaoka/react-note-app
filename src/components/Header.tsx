@@ -6,10 +6,15 @@ const style: CSS.Properties = {
     backgroundColor: 'lightgrey',
 }
 
-class Header extends Component {
+type HeaderProps = {
+    onAddNote: any,
+}
+
+
+class Header extends Component<HeaderProps, {}> {
     render() {
         return <header style={style}>
-            <button> + New note</button>
+            <button onClick={() => this.props.onAddNote()}> + New note</button>
         </header>
     }
 }

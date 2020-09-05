@@ -26,6 +26,12 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
         notes: this.props.notes
     }
 
+    componentDidUpdate(prevProps: NotesContainerProps) {
+        if (prevProps.notes !== this.props.notes) {
+            this.setState({notes: this.props.notes});
+        }
+    }
+
     editNote(edited: NoteModel) {
         const index = this.state.notes.findIndex((e: NoteModel) => e.id === edited.id);
         let newNotes = [...this.state.notes];
