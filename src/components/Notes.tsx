@@ -25,6 +25,14 @@ class Notes extends React.Component<NotesProps, NotesState> {
     state = {
         notes: this.props.notes
     }
+
+    editNote(edited: NoteModel) {
+        const index = this.state.notes.findIndex(e => e.id === edited.id);
+        let newNotes = [...this.state.notes];
+        newNotes[index] = edited;
+        this.setState({ notes: newNotes });
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -33,7 +41,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 </LeftPane>
                 <RightPane>
                     <Switch>
-                        <Route path="/:id" render={(props) => <Child {...props} notes={this.state.notes} />} />
+                        <Route path="/:id" render={(props) => <Child {...props} notes={this.state.notes}
+                            onSaveNote={(edited: NoteModel) => this.editNote(edited)} />} />
                         <Route path="*">
                             <NoNote />
                         </Route>
@@ -55,20 +64,18 @@ function Child(props: any) {
         return props.notes.find((n: NoteModel) => n.id === id);
     }
 
-    const handleChangeTitle = (title: string) => {
-        setNote({ ...note, title });
-    }
-
-    const handleChangeText = (text: string) => {
-        setNote({ ...note, text });
-    }
-
     useEffect(() => {
         setNote(findNote(props.match.params.id));
     }, [props.match.params.id]);
 
+    useEffect(() => {
+        setNote(findNote(note.id));
+    }, [props.notes]);
+
     return (
-        <NoteItem note={note} onChangeTitle={(title: string) => handleChangeTitle(title)} onChangeText={(text: string) => handleChangeText(text)}/>
+        <NoteItem note={note}
+            onSaveNote={(edited: NoteModel) => props.onSaveNote(edited)}
+        />
     );
 }  
  

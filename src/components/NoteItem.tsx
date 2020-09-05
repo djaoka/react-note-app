@@ -47,8 +47,7 @@ type NoteItemState = {
 
 type NoteItemProps = {
     note: NoteModel,
-    onChangeTitle?: any,
-    onChangeText?: any,
+    onSaveNote: any,
 }
 
 class NoteItem extends Component<NoteItemProps, NoteItemState> {
@@ -74,6 +73,11 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         this.setState({ note: newNote })
     }
 
+    handleSaveNote() {
+        this.props.onSaveNote(this.state.note);
+        this.setState({ mode: 'view' });
+    }
+
     render() {
         const mode = this.state.mode;
         if (mode === 'edit') {
@@ -87,7 +91,7 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
                                 <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
                             </div>
                             <div style={styleActionsRight}>
-                                <button>Save</button>
+                                <button onClick={this.handleSaveNote.bind(this)}>Save</button>
                                 <button>Delete</button>
                             </div>
                         </div>
