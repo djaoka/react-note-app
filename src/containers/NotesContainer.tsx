@@ -70,7 +70,7 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
                 <Header onAddNote={() => this.addNote()} disabled={this.state.editing}/>
                 <div style={styleContainer}>
                     <LeftPane>              
-                        <NoteList notes={this.state.notes}/>
+                        <NoteList notes={this.state.notes} disabled={this.state.editing}/>
                     </LeftPane>
                     <RightPane>
                         <Switch>

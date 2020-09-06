@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import CSS from 'csstype';
 
 type NoteListProps = {
-  notes: NoteModel[]
+  notes: NoteModel[],
+  disabled: boolean,
 }
 
 const styleList: CSS.Properties = {
@@ -22,11 +23,11 @@ const styleLi: CSS.Properties = {
   padding: '10px 15px',
 }
 
-const NoteList = ({ notes }: NoteListProps) => {
+const NoteList = ({ notes, disabled }: NoteListProps) => {
     return (
       <ul style={styleList}>
         {notes.map((note: NoteModel, index) => (
-          <Link key={index} to={`/${note.id}`} style={styleLink}>
+          <Link key={index} to={disabled ? '#' : `/${note.id}`} style={styleLink}>
             <li style={styleLi}>{note.title}</li>
           </Link>
         ))}
