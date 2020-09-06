@@ -60,7 +60,6 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
     }
 
     isEditing(editing: boolean) {
-        console.log('isEditing', editing);
         this.setState({ editing });
     }
 
