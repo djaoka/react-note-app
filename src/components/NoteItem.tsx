@@ -3,7 +3,7 @@ import CSS from 'csstype';
 import { NoteTextView } from './NoteTextView';
 import NoteTextEdit from './NoteTextEdit';
 import { NoteModel } from 'models/NoteModel';
-import { decrypt } from 'helpers';
+import { decrypt, encrypt } from 'helpers';
 
 const styleContainer: CSS.Properties = {
     display: 'flex',
@@ -45,6 +45,7 @@ type NoteItemState = {
     mode: string,
     note: NoteModel,
     loading: boolean,
+    saving: boolean,
 }
 
 type NoteItemProps = {
@@ -59,6 +60,7 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         mode: 'view',
         note: this.props.note,
         loading: true,
+        saving: false,
     }
     componentDidMount() {
         decrypt(this.state.note.text).then((data: string) => {
@@ -98,8 +100,12 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
     }
 
     handleSaveNote() {
-        this.props.onSaveNote(this.state.note);
-        this.setState({ mode: 'view' });
+        this.setState({ saving: true });
+        encrypt(this.state.note.text).then((data: string) => {
+            this.setState({ saving: false });
+            this.props.onSaveNote(this.state.note);
+            this.setState({ mode: 'view' });
+        });
     }
 
     handleDeleteNote() {
@@ -116,11 +122,18 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
                         <NoteTextEdit text={this.state.note.text} onChangeText={(text: string) => this.previewNoteText(text)}/>
                         <div style={styleActions}>
                             <div style={styleActionsLeft}>
-                                <button onClick={this.handleCancelEditNote.bind(this)}>Cancel</button>
+                                <button onClick={this.handleCancelEditNote.bind(this)} disabled={this.state.saving}>Cancel</button>
                             </div>
                             <div style={styleActionsRight}>
-                                <button onClick={this.handleSaveNote.bind(this)}>Save</button>
-                                <button onClick={this.handleDeleteNote.bind(this)}>Delete</button>
+                                <button onClick={this.handleSaveNote.bind(this)}>
+                                {  
+                                    this.state.saving ?
+                                        <span>Saving...</span>
+                                    :
+                                    <span>Save</span>
+                                }
+                                </button>
+                                <button onClick={this.handleDeleteNote.bind(this)} disabled={this.state.saving} >Delete</button>
                             </div>
                         </div>
                     </div>
