@@ -10,7 +10,6 @@ type HeaderProps = {
     onAddNote: any,
 }
 
-
 class Header extends Component<HeaderProps, {}> {
     render() {
         return <header style={style}>

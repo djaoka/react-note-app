@@ -1,11 +1,3 @@
 .App {
   text-align: left;
 }
-.App-Section {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-.App-NoNote {
-  text-align: center;
-}

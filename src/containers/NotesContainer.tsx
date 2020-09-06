@@ -6,6 +6,13 @@ import { Switch, Route, useParams, withRouter, RouteComponentProps } from 'react
 import { NoteModel } from 'models/NoteModel';
 import NoteItem from '../components/NoteItem';
 import { useState, useEffect } from 'react';
+import { v1 as uuidv1 } from 'uuid';
+import Header from 'components/Header';
+import CSS from 'csstype';
+
+const styleContainer: CSS.Properties = {
+    display: 'flex',
+}
 
 function NoNote() {
     return (
@@ -26,17 +33,6 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
         notes: this.props.notes
     }
 
-    componentDidUpdate(prevProps: NotesContainerProps) {
-        if (prevProps.notes && (this.props.notes.length === (prevProps.notes.length + 1))) {
-            // we added new note
-            this.setState({notes: this.props.notes}, () => {
-                if (this.props.notes) {
-                    this.props.history.push(`/${this.props.notes[this.props.notes.length -1].id}`);
-                }
-            });
-        }
-    }
-
     editNote(edited: NoteModel) {
         const index = this.state.notes.findIndex((e: NoteModel) => e.id === edited.id);
         let newNotes = [...this.state.notes];
@@ -47,29 +43,43 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
     deleteNote(deleting: NoteModel) {
         let newNotes = [...this.state.notes];
         newNotes = newNotes.filter((e: NoteModel) => e.id !== deleting.id);
-        this.setState({ notes: newNotes });
+        this.setState({ notes: newNotes }, () => {
+            this.props.history.push('/');
+        });
+    }
+
+    addNote() {
+        let newNotes = [...this.state.notes];
+        const created = { id: uuidv1(), title: 'new', text: 'try markdown' };
+        newNotes.push(created);
+        this.setState({ notes: newNotes }, () => {
+            this.props.history.push(`/${created.id}`);
+        });
     }
 
     render() {
         return (
             <React.Fragment>
-                <LeftPane>
-                    <NoteList notes={this.state.notes}/>
-                </LeftPane>
-                <RightPane>
-                    <Switch>
-                        <Route path="/:id" render={(props) => 
-                            <Child {...props}
-                                notes={this.state.notes}
-                                onSaveNote={(edited: NoteModel) => this.editNote(edited)}
-                                onDeleteNote={(deleting: NoteModel) => this.deleteNote(deleting)}
-                            />}
-                        />
-                        <Route path="*">
-                            <NoNote />
-                        </Route>
-                    </Switch>
-                </RightPane>
+                <Header onAddNote={() => this.addNote()}/>
+                <div style={styleContainer}>
+                    <LeftPane>              
+                        <NoteList notes={this.state.notes}/>
+                    </LeftPane>
+                    <RightPane>
+                        <Switch>
+                            <Route path="/:id" render={(props) => 
+                                <Child {...props}
+                                    notes={this.state.notes}
+                                    onSaveNote={(edited: NoteModel) => this.editNote(edited)}
+                                    onDeleteNote={(deleting: NoteModel) => this.deleteNote(deleting)}
+                                />}
+                            />
+                            <Route path="*">
+                                <NoNote />
+                            </Route>
+                        </Switch>
+                    </RightPane>    
+                </div>
             </React.Fragment>
         );
     }
