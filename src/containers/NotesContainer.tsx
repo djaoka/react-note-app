@@ -39,12 +39,14 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
         const index = this.state.notes.findIndex((e: NoteModel) => e.id === edited.id);
         let newNotes = [...this.state.notes];
         newNotes[index] = edited;
+        this.setState({ editing: false });
         this.setState({ notes: newNotes });
     }
 
     deleteNote(deleting: NoteModel) {
         let newNotes = [...this.state.notes];
         newNotes = newNotes.filter((e: NoteModel) => e.id !== deleting.id);
+        this.setState({ editing: false });
         this.setState({ notes: newNotes }, () => {
             this.props.history.push('/');
         });
@@ -109,7 +111,7 @@ function Child(props: any) {
 
     useEffect(() => {
         setNote(findNote(note ? note.id : null));
-    }, [note]);
+    }, [props.notes, note]);
 
     if (note) {
         return (

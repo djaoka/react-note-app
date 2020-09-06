@@ -49,7 +49,7 @@ type NoteItemProps = {
     note: NoteModel,
     onSaveNote: any,
     onDeleteNote: any,
-    onEditing: any;
+    onEditing: any,
 }
 
 class NoteItem extends Component<NoteItemProps, NoteItemState> {
