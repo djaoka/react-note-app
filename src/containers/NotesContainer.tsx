@@ -5,7 +5,7 @@ import { LeftPane } from 'components/LeftPane';
 import { Switch, Route, useParams } from 'react-router-dom';
 import { NoteModel } from 'models/NoteModel';
 import NoteItem from '../components/NoteItem';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function NoNote() {
     return (
@@ -80,12 +80,30 @@ function Child(props: any) {
         return props.notes.find((n: NoteModel) => n.id === id);
     }
 
+    const usePrevious = (value: any): any => {
+        const ref = useRef();
+        useEffect(() => {
+          ref.current = value;
+        });
+        return ref.current;
+    }
+
     useEffect(() => {
         setNote(findNote(props.match.params.id));
     }, [props.match.params.id]);
 
+    const prevNotes: NoteModel[] = usePrevious(props.notes);
+
     useEffect(() => {
-        setNote(findNote(note ? note.id : null));
+        console.log('useEffect notes', note, prevNotes, props.notes);
+        if (prevNotes && (props.notes.length === (prevNotes.length + 1))) {
+            // we added a new note, we need to change history
+            props.history.push(`/${[...props.notes].pop().id}`);
+        } else if (!note) {
+            props.history.push('/');
+        } else {
+            setNote(findNote(note ? note.id : null));
+        }
     }, [props.notes, note]);
 
     if (note) {
