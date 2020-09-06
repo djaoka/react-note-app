@@ -8,12 +8,13 @@ const style: CSS.Properties = {
 
 type HeaderProps = {
     onAddNote: any,
+    disabled: boolean
 }
 
 class Header extends Component<HeaderProps, {}> {
     render() {
         return <header style={style}>
-            <button onClick={() => this.props.onAddNote()}> + New note</button>
+            <button onClick={() => this.props.onAddNote()} disabled={this.props.disabled}> + New note</button>
         </header>
     }
 }

@@ -26,11 +26,13 @@ export interface NotesContainerProps extends RouteComponentProps<any> {
  
 export interface NotesContainerState {
     notes: NoteModel[],
+    editing: boolean,
 }
 
 class NotesContainer extends React.Component<NotesContainerProps, NotesContainerState> {
     state = {
-        notes: this.props.notes
+        notes: this.props.notes,
+        editing: false,
     }
 
     editNote(edited: NoteModel) {
@@ -57,10 +59,15 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
         });
     }
 
+    isEditing(editing: boolean) {
+        console.log('isEditing', editing);
+        this.setState({ editing });
+    }
+
     render() {
         return (
             <React.Fragment>
-                <Header onAddNote={() => this.addNote()}/>
+                <Header onAddNote={() => this.addNote()} disabled={this.state.editing}/>
                 <div style={styleContainer}>
                     <LeftPane>              
                         <NoteList notes={this.state.notes}/>
@@ -72,6 +79,7 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
                                     notes={this.state.notes}
                                     onSaveNote={(edited: NoteModel) => this.editNote(edited)}
                                     onDeleteNote={(deleting: NoteModel) => this.deleteNote(deleting)}
+                                    onEditing={(editing: boolean) => this.isEditing(editing)}
                                 />}
                             />
                             <Route path="*">
@@ -109,6 +117,7 @@ function Child(props: any) {
             <NoteItem note={note}
                 onSaveNote={(edited: NoteModel) => props.onSaveNote(edited)}
                 onDeleteNote={(deleting: NoteModel) => props.onDeleteNote(deleting)}
+                onEditing={(editing: boolean) => props.onEditing(editing)}
             />
         )
     }

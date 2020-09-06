@@ -49,6 +49,7 @@ type NoteItemProps = {
     note: NoteModel,
     onSaveNote: any,
     onDeleteNote: any,
+    onEditing: any;
 }
 
 class NoteItem extends Component<NoteItemProps, NoteItemState> {
@@ -58,10 +59,12 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
     }
     handleEditNote() {
         this.setState({ mode: 'edit', note: this.props.note });
+        this.props.onEditing(true);
     }
 
     handleCancelEditNote() {
         this.setState({ mode: 'view', note: this.props.note });
+        this.props.onEditing(false);
     }
 
     previewNoteTitle(title: string) {
