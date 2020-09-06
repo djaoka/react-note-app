@@ -16,7 +16,7 @@ const styleContainer: CSS.Properties = {
 
 function NoNote() {
     return (
-        <div className="App-NoNote">please select a note</div>
+        <div>please select a note</div>
     )
 }
 
