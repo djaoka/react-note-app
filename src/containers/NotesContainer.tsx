@@ -2,10 +2,10 @@ import * as React from 'react';
 import NoteList from 'components/NoteList';
 import { RightPane } from 'components/RightPane';
 import { LeftPane } from 'components/LeftPane';
-import { Switch, Route, useParams } from 'react-router-dom';
+import { Switch, Route, useParams, withRouter, RouteComponentProps } from 'react-router-dom';
 import { NoteModel } from 'models/NoteModel';
 import NoteItem from '../components/NoteItem';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 function NoNote() {
     return (
@@ -13,7 +13,7 @@ function NoNote() {
     )
 }
 
-export interface NotesContainerProps {
+export interface NotesContainerProps extends RouteComponentProps<any> {
     notes: NoteModel[],
 }
  
@@ -27,8 +27,13 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
     }
 
     componentDidUpdate(prevProps: NotesContainerProps) {
-        if (prevProps.notes !== this.props.notes) {
-            this.setState({notes: this.props.notes});
+        if (prevProps.notes && (this.props.notes.length === (prevProps.notes.length + 1))) {
+            // we added new note
+            this.setState({notes: this.props.notes}, () => {
+                if (this.props.notes) {
+                    this.props.history.push(`/${this.props.notes[this.props.notes.length -1].id}`);
+                }
+            });
         }
     }
 
@@ -54,7 +59,8 @@ class NotesContainer extends React.Component<NotesContainerProps, NotesContainer
                 <RightPane>
                     <Switch>
                         <Route path="/:id" render={(props) => 
-                            <Child {...props} notes={this.state.notes}
+                            <Child {...props}
+                                notes={this.state.notes}
                                 onSaveNote={(edited: NoteModel) => this.editNote(edited)}
                                 onDeleteNote={(deleting: NoteModel) => this.deleteNote(deleting)}
                             />}
@@ -80,31 +86,13 @@ function Child(props: any) {
         return props.notes.find((n: NoteModel) => n.id === id);
     }
 
-    const usePrevious = (value: any): any => {
-        const ref = useRef();
-        useEffect(() => {
-          ref.current = value;
-        });
-        return ref.current;
-    }
-
     useEffect(() => {
         setNote(findNote(props.match.params.id));
     }, [props.match.params.id]);
 
-    const prevNotes: NoteModel[] = usePrevious(props.notes);
-
     useEffect(() => {
-        console.log('useEffect notes', note, prevNotes, props.notes);
-        if (prevNotes && (props.notes.length === (prevNotes.length + 1))) {
-            // we added a new note, we need to change history
-            props.history.push(`/${[...props.notes].pop().id}`);
-        } else if (!note) {
-            props.history.push('/');
-        } else {
-            setNote(findNote(note ? note.id : null));
-        }
-    }, [props.notes, note]);
+        setNote(findNote(note ? note.id : null));
+    }, [note]);
 
     if (note) {
         return (
@@ -117,4 +105,4 @@ function Child(props: any) {
     return <NoNote />
 }  
  
-export default NotesContainer;
+export default withRouter(NotesContainer);
