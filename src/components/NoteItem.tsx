@@ -72,9 +72,11 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
     componentWillReceiveProps(nextProps: NoteItemProps) {
         if (nextProps.note.id !== this.props.note.id) {
             this.setState({ loading: true });
+            this.props.onEditing(true);
             decrypt(this.state.note.text).then((data: string) => {
                 this.setState({ note: { ...this.state.note, text: data} });
                 this.setState({ loading: false });
+                this.props.onEditing(false);
             });
         }
     }
