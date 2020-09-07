@@ -101,8 +101,10 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
 
     handleSaveNote() {
         this.setState({ saving: true });
-        encrypt(this.state.note.text).then((data: string) => {
+        this.props.onEditing(true);
+        encrypt(this.state.note.text).then(() => {
             this.setState({ saving: false });
+            this.props.onEditing(true);
             this.props.onSaveNote(this.state.note);
             this.setState({ mode: 'view' });
         });
@@ -117,9 +119,9 @@ class NoteItem extends Component<NoteItemProps, NoteItemState> {
         if (mode === 'edit') {
             return <div style={styleContainer}>
                         <div style={styleTitleEdit}>
-                            <input style={styleTitleEditInput} type="text" value={this.state.note.title} onChange={(event) => this.previewNoteTitle(event.target.value)}/>
+                            <input style={styleTitleEditInput} type="text" disabled={this.state.saving} value={this.state.note.title} onChange={(event) => this.previewNoteTitle(event.target.value)}/>
                         </div>
-                        <NoteTextEdit text={this.state.note.text} onChangeText={(text: string) => this.previewNoteText(text)}/>
+                        <NoteTextEdit text={this.state.note.text} disabled={this.state.saving} onChangeText={(text: string) => this.previewNoteText(text)}/>
                         <div style={styleActions}>
                             <div style={styleActionsLeft}>
                                 <button onClick={this.handleCancelEditNote.bind(this)} disabled={this.state.saving}>Cancel</button>

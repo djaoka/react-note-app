@@ -4,6 +4,7 @@ import CSS from 'csstype';
 type NoteTextEditProps = {
     text: string,
     onChangeText: any,
+    disabled: boolean,
 }
 
 const style: CSS.Properties = {
@@ -13,7 +14,7 @@ const style: CSS.Properties = {
 
 class NoteTextEdit extends Component<NoteTextEditProps, {}> {
     render() {
-        return <textarea id="textearea" style={style} value={this.props.text} onChange={(event) => this.props.onChangeText(event.target.value)}></textarea>
+        return <textarea id="textearea" style={style} disabled={this.props.disabled} value={this.props.text} onChange={(event) => this.props.onChangeText(event.target.value)}></textarea>
     }
 }
 
